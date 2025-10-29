@@ -2,10 +2,12 @@
 const fs = require("fs/promises");
 const axios = require("axios");
 
-const JSON_FILE = "canales.json";
+const JSON_FILE = "chanels.json";
 const LOG_FILE = "canales_caidos.log";
-const M3U_FILE = "channels.m3u"; // Nuevo archivo de salida
+const M3U_FILE = "chanels.m3u"; // Nuevo archivo de salida
 const MIN_CONTENT_LENGTH = 30; // Umbral de tamaño mínimo para un m3u8 válido.
+
+const urlLogo = "https://iptv.xplay.cl/assets/images/chanels/";
 
 /**
  * Comprueba el estado del stream m3u8 usando una petición GET y analizando el contenido.
@@ -60,7 +62,7 @@ function generarLineaM3U(canal) {
   const url = canal.url;
 
   // Formato: #EXTINF:-1 tvg-logo="logo.png", title\nurl
-  return `#EXTINF:-1 tvg-logo="${logoUrl}",${title}\n${url}`;
+  return `#EXTINF:-1 tvg-logo="${urlLogo}${logoUrl}",${title}\n${url}`;
 }
 
 /**
