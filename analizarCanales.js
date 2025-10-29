@@ -6,11 +6,11 @@ const JSON_FILE = "canales.json";
 
 /**
  * Comprueba si un URL de stream (m3u8) está activo haciendo una petición HEAD.
+ * Se mantiene inalterado.
  * @param {string} url La URL del stream.
  * @returns {Promise<boolean>} Devuelve true si el canal está activo (código 2xx), false en caso contrario.
  */
 async function checkStreamStatus(url) {
-  // Si la URL es inválida, se considera inactiva
   if (!url || typeof url !== "string") {
     return false;
   }
@@ -18,21 +18,20 @@ async function checkStreamStatus(url) {
   try {
     // Usamos el método HEAD para solo obtener los encabezados.
     const response = await axios.head(url, {
-      timeout: 7000, // Aumentado a 7 segundos por si hay latencia
-      // Para prevenir problemas de CORS, en Node.js esto no es un problema
-      // pero si tuvieras que hacerlo desde un navegador, necesitarías un proxy.
+      timeout: 7000,
     });
 
     // Los códigos de estado 2xx indican éxito (ej. 200 OK)
     return response.status >= 200 && response.status < 300;
   } catch (error) {
-    // Maneja errores de conexión, timeouts, o códigos de estado 4xx/5xx (Not Found, Server Error)
+    // Maneja errores de conexión, timeouts, o códigos de estado 4xx/5xx
     return false;
   }
 }
 
 /**
- * Función principal para analizar y actualizar el estado de los canales.
+ * Función principal para analizar y actualizar el estado de los canales,
+ * manteniendo el orden original de la lista.
  */
 async function analizarCanales() {
   console.log(`Iniciando el análisis de canales en ${JSON_FILE}...`);
@@ -45,31 +44,30 @@ async function analizarCanales() {
     return;
   }
 
-  const canalesActualizados = [];
-  // Usamos Promise.all para ejecutar todas las comprobaciones en paralelo,
-  // lo que acelera significativamente el proceso.
-  const promesas = canales.map(async (canal) => {
+  // 1. Creamos un array de promesas. Usamos 'map' para crear las promesas
+  // en el mismo orden que los canales originales.
+  const promesasDeComprobacion = canales.map(async (canal) => {
     // La comprobación se hace sobre el campo 'url'
     const isActive = await checkStreamStatus(canal.url);
 
-    // Creamos el objeto con el estado actualizado (usando 'active')
-    const canalActualizado = { ...canal, active: isActive };
-    canalesActualizados.push(canalActualizado);
-
     const statusText = isActive ? "ACTIVO (✓)" : "INACTIVO (✗)";
     console.log(`[${statusText}] ID ${canal.id}: ${canal.title}`);
+
+    // 2. Devolvemos el objeto del canal con el nuevo estado 'active'
+    // El Promise.all(promesas) asegurará que este resultado se guarde en orden.
+    return { ...canal, active: isActive };
   });
 
-  // Esperamos a que todas las comprobaciones asíncronas se completen
-  await Promise.all(promesas);
+  // 3. Promise.all() garantiza que el array resultante (canalesActualizados)
+  // tenga los resultados en el mismo orden en que se crearon las promesas (el orden original del JSON).
+  const canalesActualizados = await Promise.all(promesasDeComprobacion);
 
-  // Escribir el resultado actualizado de vuelta al archivo JSON
+  // 4. Escribir el resultado actualizado de vuelta al archivo JSON
   try {
-    // 'null, 2' formatea el JSON para que sea legible (indentación de 2 espacios)
     const jsonOutput = JSON.stringify(canalesActualizados, null, 2);
     await fs.writeFile(JSON_FILE, jsonOutput, "utf8");
     console.log(
-      `\nProceso completado. El archivo ${JSON_FILE} ha sido actualizado con el nuevo estado 'active'.`
+      `\nProceso completado. El archivo ${JSON_FILE} ha sido actualizado y el orden original (por ID) ha sido preservado.`
     );
   } catch (error) {
     console.error(
