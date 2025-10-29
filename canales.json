@@ -37,7 +37,7 @@
     "icon": "tvn3.png",
     "url": "https://mdstrm.com/live-stream-playlist/5653641561b4eba30a7e4929.m3u8",
     "description": "Sin información adicional.",
-    "active": false
+    "active": true
   },
   {
     "id": 6,
@@ -701,7 +701,7 @@
     "icon": "carolinatv.png",
     "url": "https://mdstrm.com/live-stream-playlist/63a06468117f42713374addd.m3u8",
     "description": "Sin información adicional.",
-    "active": false
+    "active": true
   },
   {
     "id": 89,
