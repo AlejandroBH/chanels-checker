@@ -2,9 +2,11 @@
 const fs = require("fs/promises");
 const axios = require("axios");
 
-const JSON_FILE = "chanels_nationals.json";
-const LOG_FILE = "canales_caidos.log";
-const M3U_FILE = "chanels.m3u"; // Nuevo archivo de salida
+const LIST_NAME = "conti";
+
+const JSON_FILE = `CHANELS/${LIST_NAME}.json`;
+const LOG_FILE = `LOGS/${LIST_NAME}_caidos.log`;
+const M3U_FILE = `${LIST_NAME}.m3u`; // Nuevo archivo de salida
 const MIN_CONTENT_LENGTH = 30; // Umbral de tamaño mínimo para un m3u8 válido.
 
 const urlLogo = "https://iptv.xplay.cl/assets/images/chanels/";

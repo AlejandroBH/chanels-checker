@@ -1,0 +1,17 @@
+#EXTM3U
+#EXTINF:-1 tvg-logo="https://iptv.xplay.cl/assets/images/chanels/tvn.png",TVN
+https://mdstrm.com/live-stream-playlist/533adcc949386ce765657d7c.m3u8
+#EXTINF:-1 tvg-logo="https://iptv.xplay.cl/assets/images/chanels/24play.png",24 Play
+https://mdstrm.com/live-stream-playlist/57d1a22064f5d85712b20dab.m3u8
+#EXTINF:-1 tvg-logo="https://iptv.xplay.cl/assets/images/chanels/mega.png",Mega
+https://unlimited1-cl-isp.dps.live/mega/mega.smil/playlist.m3u8
+#EXTINF:-1 tvg-logo="https://iptv.xplay.cl/assets/images/chanels/canal13.png",Canal 13
+https://m3u.cl/channel/c13.php
+#EXTINF:-1 tvg-logo="https://iptv.xplay.cl/assets/images/chanels/t13.png",T13
+https://redirector.rudo.video/hls-video/10b92cafdf3646cbc1e727f3dc76863621a327fd/t13/t13.smil/playlist.m3u8
+#EXTINF:-1 tvg-logo="https://iptv.xplay.cl/assets/images/chanels/chvnoticias.png",CHV Noticias
+https://mdstrm.com/live-stream-playlist/5ef5fb3025c9a6086c457c55.m3u8
+#EXTINF:-1 tvg-logo="https://iptv.xplay.cl/assets/images/chanels/contivision.png",Contivision
+https://unlimited2-cl-isp.dps.live/cm/cm.smil/playlist.m3u8
+#EXTINF:-1 tvg-logo="https://iptv.xplay.cl/assets/images/chanels/lared.png",La Red
+https://alba-cl-lared-lared.stream.mediatiquestream.com/index.m3u8?PlaylistM3UCL

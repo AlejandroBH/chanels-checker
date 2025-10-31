@@ -453,7 +453,7 @@
     "icon": "adn.png",
     "url": "https://jireh-2-hls-video-cl-mundo.dps.live/hls-video/931b584451fa6dd1313ee66efbfd5802e3f3bcea/adntv/adntv.smil/adntv/livestream1/chunks.m3u8",
     "description": "Sin información adicional.",
-    "active": false
+    "active": true
   },
   {
     "id": 58,
