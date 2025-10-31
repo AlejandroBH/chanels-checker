@@ -1,0 +1,74 @@
+[
+  {
+    "id": 2,
+    "title": "TVN",
+    "icon": "tvn.png",
+    "url": "https://mdstrm.com/live-stream-playlist/533adcc949386ce765657d7c.m3u8",
+    "description": "Sin información adicional.",
+    "active": true
+  },
+  {
+    "id": 4,
+    "title": "24 Play",
+    "icon": "24play.png",
+    "url": "https://mdstrm.com/live-stream-playlist/57d1a22064f5d85712b20dab.m3u8",
+    "description": "Sin información adicional.",
+    "active": true
+  },
+  {
+    "id": 7,
+    "title": "Meganoticias",
+    "icon": "meganoticias.png",
+    "url": "https://mdstrm.com/live-stream-playlist/561430ae330428c223687e1e.m3u8",
+    "description": "Sin información adicional.",
+    "active": false
+  },
+  {
+    "id": 8,
+    "title": "Mega",
+    "icon": "mega.png",
+    "url": "https://unlimited1-cl-isp.dps.live/mega/mega.smil/playlist.m3u8",
+    "description": "Sin información adicional.",
+    "active": true
+  },
+  {
+    "id": 9,
+    "title": "Canal 13",
+    "icon": "canal13.png",
+    "url": "https://m3u.cl/channel/c13.php",
+    "description": "Sin información adicional.",
+    "active": true
+  },
+  {
+    "id": 10,
+    "title": "T13",
+    "icon": "t13.png",
+    "url": "https://redirector.rudo.video/hls-video/10b92cafdf3646cbc1e727f3dc76863621a327fd/t13/t13.smil/playlist.m3u8",
+    "description": "Sin información adicional.",
+    "active": true
+  },
+  {
+    "id": 19,
+    "title": "CHV Noticias",
+    "icon": "chvnoticias.png",
+    "url": "https://mdstrm.com/live-stream-playlist/5ef5fb3025c9a6086c457c55.m3u8",
+    "description": "Sin información adicional.",
+    "active": true
+  },
+  {
+    "id": 20,
+    "title": "Contivision",
+    "icon": "contivision.png",
+    "url": "https://unlimited2-cl-isp.dps.live/cm/cm.smil/playlist.m3u8",
+    "description": "Sin información adicional.",
+    "active": true
+  },
+  {
+    "id": 21,
+    "title": "La Red",
+    "icon": "lared.png",
+    "url": "https://alba-cl-lared-lared.stream.mediatiquestream.com/index.m3u8?PlaylistM3UCL",
+    "description": "Sin información adicional.",
+    "active": true
+  }
+]

@@ -2,7 +2,7 @@
 const fs = require("fs/promises");
 const axios = require("axios");
 
-const JSON_FILE = "chanels.json";
+const JSON_FILE = "chanels_nationals.json";
 const LOG_FILE = "canales_caidos.log";
 const M3U_FILE = "chanels.m3u"; // Nuevo archivo de salida
 const MIN_CONTENT_LENGTH = 30; // Umbral de tamaño mínimo para un m3u8 válido.
@@ -70,7 +70,7 @@ function generarLineaM3U(canal) {
  */
 async function analizarCanales() {
   console.log(`Iniciando el análisis de canales en ${JSON_FILE}...`);
-  console.log(`Tiempo de espera máximo por canal: 2 segundos.`);
+  console.log(`Tiempo de espera máximo por canal: 10 segundos.`);
 
   let canales;
   try {
@@ -85,18 +85,19 @@ async function analizarCanales() {
   }
 
   const canalesCaidosLog = [];
-  const canalesM3U = []; // Array para almacenar solo los canales activos
+  let canalesActivosCount = 0; // Contador para saber cuántos canales activos hay
 
   // 1. Crear y ejecutar promesas de comprobación en paralelo
   const promesasDeComprobacion = canales.map(async (canal) => {
+    // La comprobación puede demorar, por eso se hace en paralelo.
     const isActive = await checkStreamStatus(canal.url);
 
     const statusText = isActive ? "ACTIVO (✓)" : "INACTIVO (✗)";
     console.log(`[${statusText}] ID ${canal.id}: ${canal.title}`);
 
     if (isActive) {
-      // Si está activo, lo añadimos a la lista para el M3U
-      canalesM3U.push(canal);
+      // Usamos un contador en lugar del array canalesM3U que causaba el desorden
+      canalesActivosCount++;
     } else {
       // Si está inactivo, lo añadimos al array de log
       const timestamp = new Date().toISOString();
@@ -113,7 +114,7 @@ async function analizarCanales() {
     return { ...canal, active: isActive };
   });
 
-  // 2. Esperar a que todas las comprobaciones terminen y mantener el orden original
+  // 2. Esperar a que todas las comprobaciones terminen y **mantener el orden original**
   const canalesActualizados = await Promise.all(promesasDeComprobacion);
 
   // --- PASO 3: Generación de Archivos de Salida ---
@@ -136,7 +137,7 @@ async function analizarCanales() {
       const logContent = canalesCaidosLog
         .map(
           (logEntry) =>
-            `[${logEntry.timestamp}] ID: ${logEntry.id} | TÍTULO: ${logEntry.title}\n  URL: ${logEntry.url}\n  MOTIVO: ${logEntry.description}`
+            `[${logEntry.timestamp}] ID: ${logEntry.id} | TÍTULO: ${logEntry.title}\n  URL: ${logEntry.url}\n  MOTIVO: ${logEntry.description}`
         )
         .join("\n---\n");
 
@@ -154,17 +155,17 @@ async function analizarCanales() {
     console.log("\nTodos los canales verificados están activos.");
   }
 
-  // 3.3. GENERAR EL ARCHIVO M3U SOLO CON CANALES ACTIVOS
-  if (canalesM3U.length > 0) {
+  // 3.3. GENERAR EL ARCHIVO M3U SOLO CON CANALES ACTIVOS (MANTENIENDO EL ORDEN)
+  if (canalesActivosCount > 0) {
     try {
       // El encabezado M3U principal
       const m3uHeader = "#EXTM3U\n";
 
-      // Mapeamos solo los canales activos a su formato M3U
-      const m3uEntries = canalesM3U
-        // Filtramos el array de canalesActualizados para mantener el orden original
-        .filter((canal) => canal.active === true)
-        .map(generarLineaM3U)
+      // **CAMBIO CLAVE:** Utilizamos el array `canalesActualizados` (que está en orden)
+      // para filtrar y mapear, asegurando que se mantenga el orden del JSON original.
+      const m3uEntries = canalesActualizados
+        .filter((canal) => canal.active) // Filtramos solo los que están activos (true)
+        .map(generarLineaM3U) // Generamos la línea M3U para cada uno
         .join("\n"); // Unimos con saltos de línea
 
       const m3uContent = m3uHeader + m3uEntries;
@@ -173,7 +174,7 @@ async function analizarCanales() {
       console.log(
         `\n✅ Archivo de lista de reproducción M3U generado: ${M3U_FILE}`
       );
-      console.log(`   Incluye ${canalesM3U.length} canales activos.`);
+      console.log(`   Incluye ${canalesActivosCount} canales activos.`);
     } catch (error) {
       console.error("Error al escribir el archivo M3U:", error.message);
     }
