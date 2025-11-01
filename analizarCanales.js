@@ -2,7 +2,7 @@
 const fs = require("fs/promises");
 const axios = require("axios");
 
-const LIST_NAME = "conti";
+const LIST_NAME = "chanels";
 
 const JSON_FILE = `CHANELS/${LIST_NAME}.json`;
 const LOG_FILE = `LOGS/${LIST_NAME}_caidos.log`;
